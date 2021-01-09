@@ -57,7 +57,7 @@ function createDivsForColors(colorArray) {
   }
 }
 
-let clickCount = 0;
+
 
 // TODO: Implement this function!
 function handleCardClick(event) {
@@ -65,42 +65,9 @@ function handleCardClick(event) {
   // console.log("you just clicked", event.target);
   let clickedCard = event.target;
   let cardColor = clickedCard.className;
-  let isMatch;
-  
-  clickCount++;
-  
 
-  if (clickCount < 3) {
+
     clickedCard.style.backgroundColor = cardColor;
-    clickedCard.setAttribute('picked', true);
-    console.log(clickedCard.style.backgroundColor)
-    console.log(clickedCard.getAttribute('picked'));
-  }
-  // else {
-  //   alert('More than two clicks!')
-  // }
-
-  function getAttributes() {
-    for (const card of gameContainer.children) {
-      
-    }
-  }
-
-  // if (clickedCard.style.backgroundColor === '') {
-  //   clickCount++;
-  //   clickedCard.style.backgroundColor = cardColor;
-  // }
-
-  // for (const card of gameContainer.children) {
-  //   console.log(card, card.getAttribute('picked'));
-  //   if (!card.getAttribute('picked')) {
-  //     card.setAttribute('matched', true);
-  //     clickedCard.setAttribute('matched', true);
-  //     console.log('Add picked attribute');
-  //     card.getAttribute('picked');
-  //     card.getAttribute('matched');
-  //   }
-  // }
 }
 
 // when the DOM loads
