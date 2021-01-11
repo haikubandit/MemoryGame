@@ -13,7 +13,8 @@ const COLORS = [
   "purple"
 ];
 
-const selectedCards = [];
+let selectedCards = [];
+let deck = [];
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
@@ -67,55 +68,65 @@ function handleCardClick(event) {
   // console.log("you just clicked", event.target);
   let clickedCard = event.target;
   let cardColor = clickedCard.className;
-  // console.log(clickedCard.style);
-
+  
+  
   selectedCards.push(this);
-  console.log(selectedCards[0]);
+  
 
   let count = selectedCards.length;
   clickedCard.style.backgroundColor = cardColor;
-  if (count === 2) {
-    console.log(selectedCards[0].className, selectedCards[1].className);
-    if (selectedCards[0].className === selectedCards[1].className) {
-      alert('Match!');
-      // this.style.backgroundColor = card.className;
-      selectedCards.splice(0, selectedCards.length);
-    }
-    else {
-      setTimeout(function() {
-        clickedCard.style.backgroundColor = "";
-        selectedCards[0].style.backgroundColor = "";
-        selectedCards.splice(0, selectedCards.length);
-      },1000);
-    }
-  }
-  // else {
-  //   alert('More than two cards!');
-  // }
+  
 
-  // selectedCardCount(this);
-  for (let i = 0; i < gameContainer.children.length; i++) {
-    gameContainer.children[i];
+
+  if (count === 2) {
+    disableClick();
+    if (clickedCard === selectedCards[0]) {
+      alert('Click a different card.')
+      selectedCards.pop();
+      enableClick();
+    } else {
+      // console.log(selectedCards[0].className, selectedCards[1].className);
+      if (selectedCards[0].className === selectedCards[1].className) {
+        alert('Match!');
+        selectedCards[0].style.pointerEvents = 'none';
+        selectedCards[0].setAttribute('matched',true);
+        selectedCards[1].style.pointerEvents = 'none';
+        selectedCards[1].setAttribute('matched',true);
+        selectedCards.splice(0, selectedCards.length);
+        enableClick();
+      }
+      else {
+        setTimeout(function() {
+          clickedCard.style.backgroundColor = "";
+          selectedCards[0].style.backgroundColor = "";
+          selectedCards = [];
+          enableClick();
+        },1000);
+      }
+    }
+    
   }
+
 }
 
 // when the DOM loads
 createDivsForColors(shuffledColors);
 
+// create game deck array
+for (let i = 0; i < gameContainer.children.length; i++) {
+  deck.push(gameContainer.children[i]);
+}
 
+function enableClick() {
+  for (let i = 0; i < deck.length; i++) {
+    if (!deck[i].getAttribute('matched')) {
+      deck[i].style.pointerEvents = 'auto';              
+    }
+  }
+}
 
-// function selectedCardCount(card) {
-//   let count = selectedCards.length;
-//   card.style.backgroundColor = card.className;
-//   if (count < 3) {
-//     if (selectedCards[0].className === selectedCards[1].className) {
-//       alert('Match!');
-//       card.style.backgroundColor = card.className;
-//     } else {
-
-//     }
-//   } else {
-//     alert('More than two cards!');
-//   }
-
-// }
+function disableClick() {
+  for (let i = 0; i < deck.length; i++) {
+    deck[i].style.pointerEvents = 'none';
+  }
+}

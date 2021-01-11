@@ -5,3 +5,7 @@
   margin: 10px;
   display: inline-block;
 }
+
+.disable {
+  pointer-events: none;
+}
