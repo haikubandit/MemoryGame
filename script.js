@@ -13,6 +13,8 @@ const COLORS = [
   "purple"
 ];
 
+const selectedCards = [];
+
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
 // it is based on an algorithm called Fisher Yates if you want ot research more
@@ -67,48 +69,53 @@ function handleCardClick(event) {
   let cardColor = clickedCard.className;
   // console.log(clickedCard.style);
 
-  const gameStatus = [];
-  let selected = event.target.setAttribute('selected', true);
-  let matched;
+  selectedCards.push(this);
+  console.log(selectedCards[0]);
 
-    clickedCard.style.backgroundColor = cardColor;
-    for (let i = 0; i < gameContainer.children.length; i++) {
-      let card = gameContainer.children[i];
-      let cardStatus = {};
-      let selectedCount = 0;
-      // console.log(card.className, card.getAttribute('selected'));
-
-      cardStatus.color = card.className;
-      cardStatus.selected = card.getAttribute('selected');
-      cardStatus.matched = null;
-      gameStatus.push(cardStatus);
-      
-      if (cardStatus.selected) {
-        selectedCount++;
-        console.log(selectedCount);
-        if (selectedCount > 3) {
-          alert('Too many picks');
-        }
-      }
-      
+  let count = selectedCards.length;
+  clickedCard.style.backgroundColor = cardColor;
+  if (count === 2) {
+    console.log(selectedCards[0].className, selectedCards[1].className);
+    if (selectedCards[0].className === selectedCards[1].className) {
+      alert('Match!');
+      // this.style.backgroundColor = card.className;
+      selectedCards.splice(0, selectedCards.length);
     }
-    
-    // for (let i = 0; i < gameStatus.length; i++) {
-      
-    //   console.log(gameStatus[i]);
+    else {
+      setTimeout(function() {
+        clickedCard.style.backgroundColor = "";
+        selectedCards[0].style.backgroundColor = "";
+        selectedCards.splice(0, selectedCards.length);
+      },1000);
+    }
+  }
+  // else {
+  //   alert('More than two cards!');
+  // }
 
-      // if (cardColor === gameStatus[i].color) {
-      //   gameStatus[i].matched = true;
-      // } else {
-      //   gameStatus[i].matched = false;
-      // }
-      
-    // }
-
-    
-    console.log(gameStatus);
+  // selectedCardCount(this);
+  for (let i = 0; i < gameContainer.children.length; i++) {
+    gameContainer.children[i];
+  }
 }
 
 // when the DOM loads
 createDivsForColors(shuffledColors);
 
+
+
+// function selectedCardCount(card) {
+//   let count = selectedCards.length;
+//   card.style.backgroundColor = card.className;
+//   if (count < 3) {
+//     if (selectedCards[0].className === selectedCards[1].className) {
+//       alert('Match!');
+//       card.style.backgroundColor = card.className;
+//     } else {
+
+//     }
+//   } else {
+//     alert('More than two cards!');
+//   }
+
+// }
