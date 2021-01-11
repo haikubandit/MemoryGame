@@ -65,10 +65,50 @@ function handleCardClick(event) {
   // console.log("you just clicked", event.target);
   let clickedCard = event.target;
   let cardColor = clickedCard.className;
+  // console.log(clickedCard.style);
 
+  const gameStatus = [];
+  let selected = event.target.setAttribute('selected', true);
+  let matched;
 
     clickedCard.style.backgroundColor = cardColor;
+    for (let i = 0; i < gameContainer.children.length; i++) {
+      let card = gameContainer.children[i];
+      let cardStatus = {};
+      let selectedCount = 0;
+      // console.log(card.className, card.getAttribute('selected'));
+
+      cardStatus.color = card.className;
+      cardStatus.selected = card.getAttribute('selected');
+      cardStatus.matched = null;
+      gameStatus.push(cardStatus);
+      
+      if (cardStatus.selected) {
+        selectedCount++;
+        console.log(selectedCount);
+        if (selectedCount > 3) {
+          alert('Too many picks');
+        }
+      }
+      
+    }
+    
+    // for (let i = 0; i < gameStatus.length; i++) {
+      
+    //   console.log(gameStatus[i]);
+
+      // if (cardColor === gameStatus[i].color) {
+      //   gameStatus[i].matched = true;
+      // } else {
+      //   gameStatus[i].matched = false;
+      // }
+      
+    // }
+
+    
+    console.log(gameStatus);
 }
 
 // when the DOM loads
 createDivsForColors(shuffledColors);
+
