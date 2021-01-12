@@ -17,7 +17,15 @@ let selectedCards = [];
 let deck = [];
 let startGame = document.getElementById('start');
 let resetGame = document.getElementById('reset');
+
+
+// game scoreboard
+let scoreHeading = document.getElementById('score-heading');
 let gameScore = 0;
+
+function updateScore() {
+  document.querySelector('span').innerText = gameScore;
+}
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
@@ -74,12 +82,12 @@ function handleCardClick(event) {
   
   
   selectedCards.push(this);
-  
+  gameScore++;
+  updateScore();
 
   let count = selectedCards.length;
   clickedCard.style.backgroundColor = cardColor;
   
-
 
   if (count === 2) {
     disableClick();
@@ -88,7 +96,6 @@ function handleCardClick(event) {
       selectedCards.pop();
       enableClick();
     } else {
-      // console.log(selectedCards[0].className, selectedCards[1].className);
       if (selectedCards[0].className === selectedCards[1].className) {
         alert('Match!');
         selectedCards[0].style.pointerEvents = 'none';
@@ -109,7 +116,6 @@ function handleCardClick(event) {
     }
     
   }
-
 }
 
 // when the DOM loads
@@ -117,6 +123,7 @@ function handleCardClick(event) {
 
 // start game button
 startGame.addEventListener('click',function() {
+  scoreHeading.style.visibility = 'visible';
   createDivsForColors(shuffledColors);
   createDeck();
   startGame.style.pointerEvents = 'none';
@@ -129,7 +136,22 @@ resetGame.addEventListener('click',function() {
   shuffle(COLORS);
   createDivsForColors(shuffledColors);
   createDeck();
+  gameScore = 0;
+  updateScore();
 });
+
+// game completion
+function gameCompleted(){
+  let complete = false;
+  while (!complete) {
+    for (let i = 0; i < deck.length; i++) {
+      if (!deck[i].getAttribute('matched')) {
+        complete = false;
+      }
+    }
+  }
+  return complete;
+}
 
 // remove all cards
 function removeCards(parent) {
@@ -138,7 +160,7 @@ function removeCards(parent) {
   }
 }
 
-// enable click after inital two have been picked
+// enable click after two selections
 function enableClick() {
   for (let i = 0; i < deck.length; i++) {
     if (!deck[i].getAttribute('matched')) {
@@ -147,6 +169,7 @@ function enableClick() {
   }
 }
 
+// disable click by setting css style
 function disableClick() {
   for (let i = 0; i < deck.length; i++) {
     deck[i].style.pointerEvents = 'none';
