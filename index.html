@@ -6,12 +6,16 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Memory Game!</h1>
+    <h1 id='heading'>Memory Game!</h1>
+    <h3 id='bestscoreheading' class='hidden'>Best Score is <span id='bestscore'></span></h3>
     <button id='start'>Start Game</button>
     <button id='reset'>Reset Game</button>
+    <!-- <label for="game-amount">Enter Cards to Play:</label>
+    <input type="number" id="game-amount"> -->
     <div id="game">
     </div>
-    <h2 id='score-heading'>Your score is: <span>0</span></h2>
+    <h2 id='score-heading' class='hidden'>Your score is: <span>0</span></h2>
+    <h2 id='gamecomplete' class='hidden'>Congratulations! You win!</h2>
     <script src="script.js"></script>
   </body>
 </html>

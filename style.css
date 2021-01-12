@@ -6,6 +6,6 @@
   display: inline-block;
 }
 
-#score-heading {
+.hidden {
   visibility: hidden;
 }

@@ -22,9 +22,14 @@ let resetGame = document.getElementById('reset');
 // game scoreboard
 let scoreHeading = document.getElementById('score-heading');
 let gameScore = 0;
+let bestScoreHeading = document.getElementById('bestscoreheading');
+let bestScore = document.getElementById('bestscore');
+
+// game completion
+let gameComplete = document.getElementById('gamecomplete');
 
 function updateScore() {
-  document.querySelector('span').innerText = gameScore;
+  document.getElementById('score-heading').querySelector('span').innerText = gameScore;
 }
 
 // here is a helper function to shuffle an array
@@ -84,11 +89,11 @@ function handleCardClick(event) {
   selectedCards.push(this);
   gameScore++;
   updateScore();
+  
 
   let count = selectedCards.length;
   clickedCard.style.backgroundColor = cardColor;
   
-
   if (count === 2) {
     disableClick();
     if (clickedCard === selectedCards[0]) {
@@ -114,8 +119,10 @@ function handleCardClick(event) {
         },1000);
       }
     }
-    
   }
+  console.log(gameScore);
+  // checkCompletion();
+  // setBestScore();
 }
 
 // when the DOM loads
@@ -123,7 +130,8 @@ function handleCardClick(event) {
 
 // start game button
 startGame.addEventListener('click',function() {
-  scoreHeading.style.visibility = 'visible';
+  scoreHeading.classList.remove("hidden");
+  console.log(scoreHeading.classList);
   createDivsForColors(shuffledColors);
   createDeck();
   startGame.style.pointerEvents = 'none';
@@ -140,18 +148,7 @@ resetGame.addEventListener('click',function() {
   updateScore();
 });
 
-// game completion
-function gameCompleted(){
-  let complete = false;
-  while (!complete) {
-    for (let i = 0; i < deck.length; i++) {
-      if (!deck[i].getAttribute('matched')) {
-        complete = false;
-      }
-    }
-  }
-  return complete;
-}
+
 
 // remove all cards
 function removeCards(parent) {
@@ -180,5 +177,36 @@ function disableClick() {
 function createDeck() {
   for (let i = 0; i < gameContainer.children.length; i++) {
     deck.push(gameContainer.children[i]);
+  }
+}
+
+
+// game completion
+function checkCompletion(){
+  let complete = true;
+  if (deck.length === 0) {
+    complete = false;
+  }
+  for (let i = 0; i < deck.length; i++) {
+      if (!(deck[i].getAttribute('matched') )) {
+        complete = false;
+      }
+  }
+  if (complete) {
+    gameComplete.classList.remove('hidden');
+    bestScoreHeading.classList.remove('hidden');
+  }
+  return complete;
+}
+
+function setBestScore() {
+  let localScore = localStorage.getItem('bestscore');
+  if (checkCompletion()) {
+    if (localScore === null) {
+      localStorage.setItem('bestscore', gameScore);
+    }
+    else if (gameScore < parseInt(localScore)) {
+      localStorage.setItem('bestscore', gameScore);
+    }
   }
 }
