@@ -1,0 +1,37 @@
+function enableClick() {
+    for (let i = 0; i < deck.length; i++) {
+      if (!deck[i].getAttribute('matched')) {
+        deck[i].style.pointerEvents = 'auto';              
+      }
+    }
+  }
+  
+  function disableClick() {
+    for (let i = 0; i < deck.length; i++) {
+      deck[i].style.pointerEvents = 'none';
+    }
+  }
+  
+  // start game button
+  startGame.addEventListener('click',function() {
+    createDivsForColors(shuffledColors);
+    startGame.style.pointerEvents = 'none';
+  });
+  
+  // reset game button
+  resetGame.addEventListener('click',function() {
+    removeCards(gameContainer);
+    createDivsForColors(shuffledColors);
+  });
+  
+  // remove all cards
+  function removeCards(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+  }
+  
+  // create game deck array
+  for (let i = 0; i < gameContainer.children.length; i++) {
+    deck.push(gameContainer.children[i]);
+  }

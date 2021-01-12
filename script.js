@@ -15,6 +15,9 @@ const COLORS = [
 
 let selectedCards = [];
 let deck = [];
+let startGame = document.getElementById('start');
+let resetGame = document.getElementById('reset');
+let gameScore = 0;
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
@@ -110,13 +113,32 @@ function handleCardClick(event) {
 }
 
 // when the DOM loads
-createDivsForColors(shuffledColors);
+// createDivsForColors(shuffledColors);
 
-// create game deck array
-for (let i = 0; i < gameContainer.children.length; i++) {
-  deck.push(gameContainer.children[i]);
+// start game button
+startGame.addEventListener('click',function() {
+  createDivsForColors(shuffledColors);
+  createDeck();
+  startGame.style.pointerEvents = 'none';
+});
+
+// reset game button
+resetGame.addEventListener('click',function() {
+  deck = [];
+  removeCards(gameContainer);
+  shuffle(COLORS);
+  createDivsForColors(shuffledColors);
+  createDeck();
+});
+
+// remove all cards
+function removeCards(parent) {
+  while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+  }
 }
 
+// enable click after inital two have been picked
 function enableClick() {
   for (let i = 0; i < deck.length; i++) {
     if (!deck[i].getAttribute('matched')) {
@@ -128,5 +150,12 @@ function enableClick() {
 function disableClick() {
   for (let i = 0; i < deck.length; i++) {
     deck[i].style.pointerEvents = 'none';
+  }
+}
+
+// create game deck array
+function createDeck() {
+  for (let i = 0; i < gameContainer.children.length; i++) {
+    deck.push(gameContainer.children[i]);
   }
 }
