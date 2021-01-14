@@ -121,8 +121,8 @@ function handleCardClick(event) {
     }
   }
   console.log(gameScore);
-  // checkCompletion();
-  // setBestScore();
+  checkCompletion();
+  setBestScore();
 }
 
 // when the DOM loads
