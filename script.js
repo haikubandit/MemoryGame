@@ -122,7 +122,7 @@ function handleCardClick(event) {
   }
   console.log(gameScore);
   checkCompletion();
-  setBestScore();
+  // setBestScore();
 }
 
 // when the DOM loads
@@ -194,19 +194,23 @@ function checkCompletion(){
   }
   if (complete) {
     gameComplete.classList.remove('hidden');
-    bestScoreHeading.classList.remove('hidden');
+    // bestScoreHeading.classList.remove('hidden');
   }
   return complete;
 }
 
+//setting localStorage for best score
 function setBestScore() {
   let localScore = localStorage.getItem('bestscore');
   if (checkCompletion()) {
     if (localScore === null) {
       localStorage.setItem('bestscore', gameScore);
+      bestScore.innerText = localScore;
     }
     else if (gameScore < parseInt(localScore)) {
       localStorage.setItem('bestscore', gameScore);
+      console.log(localScore);
+      bestScore.innerText = localScore;
     }
   }
 }
